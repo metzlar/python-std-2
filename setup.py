@@ -1,9 +1,9 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
   name='Python Utilities',
   version='0.1',
-  py_modules=['std2'],
+  packages=find_packages(),
   cmdclass={'upload':lambda x:None},
   install_requires=[
   ],
