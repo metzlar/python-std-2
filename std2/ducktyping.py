@@ -1,8 +1,7 @@
+from __future__ import absolute_import
+
 
 class DuckDict(dict):
-    def __init__(self, **kwargs):
-        for k, v in kwargs.iteritems():
-            self[k] = v
 
     def __setattr__(self, key, value):
         self[key] = value
