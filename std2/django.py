@@ -2,6 +2,12 @@ from __future__ import absolute_import
 
 from django.forms.models import model_to_dict
 
+from uuid import uuid4
+
+
+def new_uuid4_hex():
+    return uuid4().hex
+
 
 def sql_regex(column, type='regex'):
     '''See:
