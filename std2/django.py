@@ -24,12 +24,11 @@ def chunked(queryset, chunksize=100):
 
     Note that the implementation of the iterator does not support ordered query sets.
     '''
-    #pk = 0
+    pk = 0
     last_pk = queryset.order_by('-pk')[0].pk
-    pk = last_pk
-    queryset = queryset.order_by('-pk')
-    while pk >= 0:
-        for row in queryset.filter(pk__lte=pk)[:chunksize]:
+    queryset = queryset.order_by('pk')
+    while pk < last_pk:
+        for row in queryset.filter(pk__gt=pk)[:chunksize]:
             pk = row.pk
             yield row
         gc.collect()
