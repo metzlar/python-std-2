@@ -4,9 +4,35 @@ from django.forms.models import model_to_dict
 
 from uuid import uuid4
 
+import gc
+
 
 def new_uuid4_hex():
     return uuid4().hex
+
+
+def chunked(queryset, chunksize=100):
+    '''''
+    https://djangosnippets.org/snippets/1949/
+
+    Iterate over a Django Queryset ordered by the primary key
+
+    This method loads a maximum of chunksize (default: 100) rows in it's
+    memory at the same time while django normally would load all rows in it's
+    memory. Using the iterator() method only causes it to not preload all the
+    classes.
+
+    Note that the implementation of the iterator does not support ordered query sets.
+    '''
+    #pk = 0
+    last_pk = queryset.order_by('-pk')[0].pk
+    pk = last_pk
+    queryset = queryset.order_by('-pk')
+    while pk >= 0:
+        for row in queryset.filter(pk__lte=pk)[:chunksize]:
+            pk = row.pk
+            yield row
+        gc.collect()
 
 
 def sql_regex(column, type='regex'):
