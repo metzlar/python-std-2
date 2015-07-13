@@ -44,7 +44,7 @@ def invoke_action(
     Example usage:
 
     u = User.objects.filter(username='john')
-    model_admin = get_admin_for(u[0])
+    model_admin = get_admin_for(u[0].__class__)
     invoke_action(model_admin, 'delete', u)
     '''
 
